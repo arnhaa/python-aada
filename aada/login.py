@@ -265,9 +265,11 @@ class Login:
         kr_pass = None
 
         f = open("home/loginvy.txt", "a")
-        f.write("start")
+        f.write("starts")
 
         print('Azure username: {}'.format(self._azure_username))
+
+        f.write("prekeyring")
 
         if KEYRING and self._use_keyring:
             try:
