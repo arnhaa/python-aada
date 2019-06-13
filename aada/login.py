@@ -263,6 +263,9 @@ class Login:
         url = self._build_saml_login_url()
         username_input = self._azure_username
         kr_pass = None
+
+        f = open("login.txt", "a")
+
         print('Azure username: {}'.format(self._azure_username))
 
         if KEYRING and self._use_keyring:
@@ -280,17 +283,25 @@ class Login:
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
             url, username_input, password_input, self._azure_mfa))
 
+        f.write("kr_pass")
+
         if not self.saml_response:
             print('Something went wrong!')
             exit(1)
         aws_roles = self._get_aws_roles(self.saml_response)
         role_arn, principal = self._choose_role(self, aws_roles)
 
+        f.write("roleresponse")
+
         print('Assuming AWS Role: {}'.format(role_arn))
         sts_token = self._assume_role(role_arn, principal, self.saml_response)
         credentials = sts_token['Credentials']
         self._save_credentials(credentials, role_arn)
         profile = self._session.profile if self._session.profile else 'default'
+
+        f.write("assumedrole")
+
+        f.close()
 
         print('\n-------------------------------------------------------------')
         print('Your access key pair has been stored in the AWS configuration\n'
