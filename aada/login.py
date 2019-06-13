@@ -266,6 +266,7 @@ class Login:
 
         f = open("home/loginvy.txt", "a")
         f.write("starts")
+        f.write("print")
 
         print('Azure username: {}'.format(self._azure_username))
 
