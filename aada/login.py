@@ -264,13 +264,13 @@ class Login:
         username_input = self._azure_username
         kr_pass = None
 
-        f = open("home/loginvy.txt", "a")
-        f.write("starts")
-        f.write("print")
+        f = open("home/loginvy.txt", "w+")
+        f.write("starts \n")
+        f.write("print \n")
 
         print('Azure username: {}'.format(self._azure_username))
 
-        f.write("prekeyring")
+        f.write("prekeyring \n")
 
         if KEYRING and self._use_keyring:
             try:
@@ -279,7 +279,7 @@ class Login:
             except Exception as e:
                 print('Failed getting password from Keyring {}'.format(e))
 
-        f.write("keyring")
+        f.write("keyring \n")
         f.write(url)
 
         if kr_pass is not None:
@@ -290,7 +290,7 @@ class Login:
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
             url, username_input, password_input, self._azure_mfa))
 
-        f.write("kr_pass")
+        f.write("kr_pass \n")
 
         if not self.saml_response:
             print('Something went wrong!')
@@ -298,7 +298,7 @@ class Login:
         aws_roles = self._get_aws_roles(self.saml_response)
         role_arn, principal = self._choose_role(self, aws_roles)
 
-        f.write("roleresponse")
+        f.write("roleresponse \n")
 
         print('Assuming AWS Role: {}'.format(role_arn))
         sts_token = self._assume_role(role_arn, principal, self.saml_response)
@@ -306,7 +306,7 @@ class Login:
         self._save_credentials(credentials, role_arn)
         profile = self._session.profile if self._session.profile else 'default'
 
-        f.write("assumedrole")
+        f.write("assumedrole \n")
 
         f.close()
 
