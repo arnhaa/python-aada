@@ -282,17 +282,18 @@ class Login:
                 print('Failed getting password from Keyring {}'.format(e))
 
         f.write("keyring \n")
-        f.write(url)
 
         if kr_pass is not None:
             password_input = kr_pass
         else:
             password_input = getpass.getpass('Azure password: ')
 
+        f.write("preasync \n")
+
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
             url, username_input, password_input, self._azure_mfa))
 
-        f.write("kr_pass \n")
+        f.write("pastasync \n")
 
         if not self.saml_response:
             print('Something went wrong!')
