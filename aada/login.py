@@ -264,7 +264,7 @@ class Login:
         username_input = self._azure_username
         kr_pass = None
 
-        f = open("home/loginvy.txt", "w+")
+        f = open("/home/loginvy.txt", "a+")
         f.write("starts \n")
         f.write("print \n")
 
