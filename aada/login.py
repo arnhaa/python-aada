@@ -264,7 +264,9 @@ class Login:
         username_input = self._azure_username
         kr_pass = None
 
-        f = open("/home/loginvy.txt", "a+")
+        homed = os.getenv("HOME")
+        LOGFILEN = os.path.join(homed, "loginvy.txt")
+        f = open(LOGFILEN, "a+")
         f.write("starts \n")
         f.write("print \n")
 
