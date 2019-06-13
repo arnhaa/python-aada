@@ -276,6 +276,9 @@ class Login:
             except Exception as e:
                 print('Failed getting password from Keyring {}'.format(e))
 
+        f.write("keyring")
+        f.write(url)
+
         if kr_pass is not None:
             password_input = kr_pass
         else:
