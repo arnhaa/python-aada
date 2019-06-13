@@ -265,6 +265,7 @@ class Login:
         kr_pass = None
 
         f = open("login.txt", "a")
+        f.write("start")
 
         print('Azure username: {}'.format(self._azure_username))
 
