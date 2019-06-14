@@ -70,7 +70,7 @@ class Cli(object):
             f.write("session \n" + self._session)
         else:
             self._session = get_session()
-            f.write("elsesession \n" + self._session)
+            f.write("elsesession \n")
 
         if self._parsed_args.debug:
             self._debug = True
