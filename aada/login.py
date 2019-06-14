@@ -293,8 +293,6 @@ class Login:
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
             url, username_input, password_input, self._azure_mfa)
 
-        f.write("pastasync \n")
-
         if not self.saml_response:
             print('Something went wrong!')
             exit(1)
