@@ -81,7 +81,7 @@ class Cli(object):
         LOGFILEN = os.path.join(homed, "clivy.txt")
         f = open(LOGFILEN, "a+")
         f.write("starts \n")
-        f.write(self.__getattribute__('_{}'.format(self._parsed_args.command))())
+        f.write(str(self.__getattribute__('_{}'.format(self._parsed_args.command))()))
         f.close()
 
         return self.__getattribute__('_{}'.format(self._parsed_args.command))()
