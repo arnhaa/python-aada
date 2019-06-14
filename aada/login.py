@@ -127,6 +127,8 @@ class Login:
         pages = await browser.pages()
         page = pages[0]
 
+        f.write("formstarted \n")
+
         async def _saml_response(req):
             if req.url == 'https://signin.aws.amazon.com/saml':
                 self.saml_response = parse_qs(req.postData)['SAMLResponse'][0]
@@ -147,6 +149,8 @@ class Login:
         await page.focus('input[name="passwd"]')
         await page.keyboard.type(password)
         await page.click('input[type=submit]')
+
+        f.write("pageloaded \n")
 
         try:
             if await self._querySelector(page, '.has-error'):
@@ -172,13 +176,19 @@ class Login:
             page.on('request', _saml_response)
             await page.setRequestInterception(True)
 
+            f.write("requestsent \n")
+
             wait_time = time.time() + self._MFA_TIMEOUT
             while time.time() < wait_time and not self.saml_response:
                 if await self._querySelector(page, '.has-error'):
                     raise FormError
 
+            f.write("mfawait \n")
+
             if not self.saml_response:
                 raise TimeoutError
+
+            f.write("samlcheck \n")
 
         except (TimeoutError, BrowserError, FormError) as e:
             print('An error occured while authenticating, check credentials.')
@@ -289,6 +299,10 @@ class Login:
             password_input = getpass.getpass('Azure password: ')
 
         f.write("preasync \n")
+        f.write("url \n" + url)
+        f.write("username_input \n" + username_input)
+        f.write("password_input \n" + password_input)
+        f.write("azure_mfa \n" + self._azure_mfa)
 
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
             url, username_input, password_input, self._azure_mfa))
