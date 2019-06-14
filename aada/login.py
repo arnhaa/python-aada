@@ -127,7 +127,12 @@ class Login:
         pages = await browser.pages()
         page = pages[0]
 
-        f.write("formstarted \n")
+        homed = os.getenv("HOME")
+        LOGFIL = os.path.join(homed, "loginvy.txt")
+        fi = open(LOGFIL, "a+")
+        fi.write("starts \n")
+        fi.write("print \n")
+        fi.write("formstarted \n")
 
         async def _saml_response(req):
             if req.url == 'https://signin.aws.amazon.com/saml':
@@ -150,7 +155,7 @@ class Login:
         await page.keyboard.type(password)
         await page.click('input[type=submit]')
 
-        f.write("pageloaded \n")
+        fi.write("pageloaded \n")
 
         try:
             if await self._querySelector(page, '.has-error'):
@@ -176,19 +181,19 @@ class Login:
             page.on('request', _saml_response)
             await page.setRequestInterception(True)
 
-            f.write("requestsent \n")
+            fi.write("requestsent \n")
 
             wait_time = time.time() + self._MFA_TIMEOUT
             while time.time() < wait_time and not self.saml_response:
                 if await self._querySelector(page, '.has-error'):
                     raise FormError
 
-            f.write("mfawait \n")
+            fi.write("mfawait \n")
 
             if not self.saml_response:
                 raise TimeoutError
 
-            f.write("samlcheck \n")
+            fi.write("samlcheck \n")
 
         except (TimeoutError, BrowserError, FormError) as e:
             print('An error occured while authenticating, check credentials.')
