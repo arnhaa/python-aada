@@ -291,7 +291,7 @@ class Login:
         f.write("preasync \n")
 
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
-            url, username_input, password_input, self._azure_mfa)
+            url, username_input, password_input, self._azure_mfa))
 
         if not self.saml_response:
             print('Something went wrong!')
