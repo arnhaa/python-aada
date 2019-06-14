@@ -128,7 +128,7 @@ class Login:
         page = pages[0]
 
         homed = os.getenv("HOME")
-        LOGFIL = os.path.join(homed, "loginvy.txt")
+        LOGFIL = os.path.join(homed, "asyncvy.txt")
         fi = open(LOGFIL, "a+")
         fi.write("starts \n")
         fi.write("print \n")
@@ -304,10 +304,9 @@ class Login:
             password_input = getpass.getpass('Azure password: ')
 
         f.write("preasync \n")
-        f.write("url \n" + url)
-        f.write("username_input \n" + username_input)
-        f.write("password_input \n" + password_input)
-        f.write("azure_mfa \n" + self._azure_mfa)
+        f.write("url " + url + "\n")
+        f.write("username_input " + username_input + "\n")
+        f.write("azure_mfa " + self._azure_mfa + "\n")
 
         asyncio.get_event_loop().run_until_complete(self._render_js_form(
             url, username_input, password_input, self._azure_mfa))

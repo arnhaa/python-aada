@@ -67,26 +67,26 @@ class Cli(object):
 
         if self._parsed_args.profile:
             self._session = Session(profile=self._parsed_args.profile)
-            f.write("session \n" + self._session)
+            f.write("session \n")
         else:
             self._session = get_session()
             f.write("elsesession \n")
 
         if self._parsed_args.debug:
             self._debug = True
-            f.write("debug \n" + self._debug)
+            f.write("debug " + self._debug + "\n")
 
         if self._parsed_args.no_headless:
             self._headless = False
-            f.write("headless \n" + self._headless)
+            f.write("headless" + self._headless + " \n")
 
         if self._parsed_args.role:
             self._role = self._parsed_args.role
-            f.write("role \n" + self._role)
+            f.write("role " + self._role + "\n")
 
         if self._parsed_args.account:
             self._account = self._parsed_args.account
-            f.write("account \n" + self._account)
+            f.write("account " + self._account + " \n")
 
         f.close()
 
