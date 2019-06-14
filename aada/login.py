@@ -169,8 +169,9 @@ class Login:
                     for l in mfa_token:
                         await page.keyboard.sendCharacter(l)
                     await page.click('input[type=submit]')
+                    fi.write("Processing authentication \n")
                 else:
-                    print('Processing MFA authentication...')
+                    fi.write("Processing MFA authentication \n")
 
             if self._azure_kmsi:
                 await page.waitForSelector(
@@ -187,7 +188,7 @@ class Login:
             fi.write("timeout " + str(self._MFA_TIMEOUT) + "\n" )
             while time.time() < wait_time and not self.saml_response:
                 if await self._querySelector(page, '.has-error'):
-                    fi.write("error" + FormError + "\n")
+                    fi.write("error" + str(FormError) + "\n")
                     raise FormError
 
             fi.write("mfawait \n")
