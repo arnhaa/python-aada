@@ -60,28 +60,34 @@ class Cli(object):
         parser = self._create_parser()
         self._parsed_args = parser.parse_args(self.args)
 
-        if self._parsed_args.profile:
-            self._session = Session(profile=self._parsed_args.profile)
-        else:
-            self._session = get_session()
-
-        if self._parsed_args.debug:
-            self._debug = True
-
-        if self._parsed_args.no_headless:
-            self._headless = False
-
-        if self._parsed_args.role:
-            self._role = self._parsed_args.role
-
-        if self._parsed_args.account:
-            self._account = self._parsed_args.account
-
         homed = os.getenv("HOME")
         LOGFILEN = os.path.join(homed, "clivy.txt")
         f = open(LOGFILEN, "a+")
         f.write("starts \n")
-        f.write(str(self.__getattribute__('_{}'.format(self._parsed_args.command))()))
+
+        if self._parsed_args.profile:
+            self._session = Session(profile=self._parsed_args.profile)
+            f.write("session \n" + self._session)
+        else:
+            self._session = get_session()
+            f.write("elsesession \n" + self._session)
+
+        if self._parsed_args.debug:
+            self._debug = True
+            f.write("debug \n" + self._debug)
+
+        if self._parsed_args.no_headless:
+            self._headless = False
+            f.write("headless \n" + self._headless)
+
+        if self._parsed_args.role:
+            self._role = self._parsed_args.role
+            f.write("role \n" + self._role)
+
+        if self._parsed_args.account:
+            self._account = self._parsed_args.account
+            f.write("account \n" + self._account)
+
         f.close()
 
         return self.__getattribute__('_{}'.format(self._parsed_args.command))()
