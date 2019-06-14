@@ -184,8 +184,10 @@ class Login:
             fi.write("requestsent \n")
 
             wait_time = time.time() + self._MFA_TIMEOUT
+            fi.write("timeout " + self._MFA_TIMEOUT + "\n" )
             while time.time() < wait_time and not self.saml_response:
                 if await self._querySelector(page, '.has-error'):
+                    fi.write("error" + FormError + "\n")
                     raise FormError
 
             fi.write("mfawait \n")
